@@ -10,11 +10,19 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                 node-version: 20
-            -   name: Install depensencies  
-                run: |
-                 npm install
-                env:
-                    CI: true
+             # Install backend dependencies
+            - name: Install Backend Dependencies
+              working-directory: ./backend
+              run: npm install
+              env:
+                  CI: true
+
+            # Install frontend dependencies
+            - name: Install Frontend Dependencies
+              working-directory: ./frontend
+              run: npm install
+              env:
+                  CI: true
 
 
     deploy:
