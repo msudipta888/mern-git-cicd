@@ -35,12 +35,15 @@ jobs:
                 service_id: ${{ secrets.RENDER_SERVICE_ID }}
     
     frontend_deploy:
-          runs-on: ubuntu-latest
-          steps:
-             - uses: actions/checkout@v2 
-             - uses: amondnet/vercel-action@v25
-               with:
-                    vercel-token: ${{ secrets.VERCEL_TOKEN }}
-                    vercel-org-id: ${{ secrets.ORG_ID}}  
-                    vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}} 
-                    working-directory: ./frontend
+       runs-on: ubuntu-latest
+       steps:
+            - uses: actions/checkout@v2
+            - name: Install Vercel CLI
+              run: npm install -g vercel
+            - name: Deploy to Vercel
+              uses: amondnet/vercel-action@v25
+              with:
+                vercel-token: ${{ secrets.VERCEL_TOKEN }}
+                vercel-org-id: ${{ secrets.ORG_ID }}
+                vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+                working-directory: ./frontend
