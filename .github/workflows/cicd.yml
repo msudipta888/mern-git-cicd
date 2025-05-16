@@ -18,24 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js v20
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-
+          node-version: 20
       # Backend install & test (add your test step here if you want)
       - name: Install Backend Dependencies
-        run: npm install
+        
         working-directory: ./backend
+        run: npm install
         env:
           CI: true
 
       # Frontend install & test
       - name: Install Frontend Dependencies
-        run: npm install
+       
         working-directory: ./frontend
+        run: npm install
         env:
           CI: true
 
