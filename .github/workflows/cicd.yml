@@ -34,30 +34,32 @@ jobs:
           service_id: ${{ secrets.RENDER_SERVICE_ID }}
 
   frontend_deploy:
-      runs-on: ubuntu-latest
-      env:
-        VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
-        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      steps:
-          - uses: actions/checkout@v4
+    runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    steps:
+    - uses: actions/checkout@v4
 
-          - name: Setup Node.js
-            uses: actions/setup-node@v4
-            with:
-              node-version: 20
+    - name: Setup Node.js v20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'                  
 
-          - name: Install Vercel CLI
-            run: npm install -g vercel@33.4.1
+    - name: Install Vercel CLI
+      run: npm install -g vercel@latest
 
-          - name: Pull Vercel Project Settings
-            run: vercel pull --yes --token=$VERCEL_TOKEN
+    - name: Pull Vercel Settings
+      run: vercel pull --yes --token=$VERCEL_TOKEN
 
-          - name: Build locally
-            run: vercel build --prod --token=$VERCEL_TOKEN
+    - name: Build Locally
+      run: vercel build --prod --yes --token=$VERCEL_TOKEN
 
-          - name: Deploy prebuilt
-            run: vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN       
+    - name: Deploy Prebuilt
+      run: vercel deploy --prebuilt --prod --confirm --token=$VERCEL_TOKEN
+    
           
  
     
