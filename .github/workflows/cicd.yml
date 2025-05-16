@@ -1,6 +1,11 @@
 name: mern github cicd
-
-on: push
+env:
+      VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -35,28 +40,21 @@ jobs:
 
   frontend_deploy:
     runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: ${{ secrets.ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+    
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-        cache: 'npm'                  
+    - uses: actions/checkout@v3             
 
     - name: Install Vercel CLI
       run: npm install -g vercel@latest
 
     - name: Pull Vercel Settings
-      run: vercel pull --yes --token=$VERCEL_TOKEN
+      run: vercel pull --yes --token= ${{secrets.VERCEL_TOKEN }}
 
     - name: Build Locally
-      run: vercel build --prod --yes --token=$VERCEL_TOKEN
+      run: vercel build --prod  --token=${{secrets.VERCEL_TOKEN }}
 
     - name: Deploy Prebuilt
-      run: vercel deploy --prebuilt --prod --confirm --token=$VERCEL_TOKEN
+      run: vercel deploy --prebuilt --prod  --token=${{secrets.VERCEL_TOKEN }}
     
           
  
